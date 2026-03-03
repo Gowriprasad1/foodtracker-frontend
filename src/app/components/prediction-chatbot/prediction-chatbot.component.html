@@ -1,0 +1,86 @@
+<div class="fixed bottom-6 right-24 z-[60] flex flex-col items-end">
+    <!-- Chat Window -->
+    <div *ngIf="isOpen" [@slideInOut]
+        class="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden relative">
+
+        <!-- Header -->
+        <div class="bg-zomato-red p-6 flex items-center justify-between text-white">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl shadow-inner">
+                    🤖
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg leading-tight">Sales Predictor</h3>
+                    <p class="text-xs text-white/70 flex items-center">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-1.5 animate-pulse"></span>
+                        AI Assistant Online
+                    </p>
+                </div>
+            </div>
+            <button (click)="toggleChat()" class="p-2 hover:bg-white/10 rounded-xl transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50" #messageContainer>
+            <div *ngFor="let msg of messages"
+                [ngClass]="{'flex justify-start': msg.isBot, 'flex justify-end': !msg.isBot}"
+                class="animate-in fade-in slide-in-from-bottom-2 duration-300">
+
+                <div [ngClass]="{
+          'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-2xl rounded-tl-none': msg.isBot,
+          'bg-zomato-red text-white shadow-md rounded-2xl rounded-tr-none': !msg.isBot
+        }" class="max-w-[85%] p-4 text-sm leading-relaxed">
+                    {{ msg.text }}
+
+                    <!-- Options -->
+                    <div *ngIf="msg.options" class="mt-4 space-y-2">
+                        <button *ngFor="let opt of msg.options" (click)="selectOption(opt)"
+                            class="block w-full text-left p-3 rounded-xl border border-zomato-red/20 text-zomato-red hover:bg-zomato-red hover:text-white transition-all text-xs font-semibold bg-white shadow-sm hover:shadow-md active:scale-95 duration-200">
+                            {{ opt }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div *ngIf="isTyping" class="flex justify-start animate-pulse">
+                <div class="bg-white p-3 rounded-full shadow-sm border border-gray-100 flex space-x-1">
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 bg-white border-t border-gray-100">
+            <div class="bg-gray-100 rounded-2xl p-4 text-center">
+                <p class="text-[10px] text-gray-400 font-medium uppercase tracking-widest">Powered by TiffinTracker AI
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle Button (FAB) -->
+    <button (click)="toggleChat()"
+        class="group relative w-16 h-16 bg-white text-zomato-red rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_40px_rgba(235,66,74,0.3)] transition-all duration-300 flex items-center justify-center overflow-hidden active:scale-90"
+        [ngClass]="{'bg-zomato-red !text-white rotate-90': isOpen}">
+        <div
+            class="absolute inset-0 bg-gradient-to-tr from-zomato-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+        </div>
+        <span class="text-3xl transform transition-transform duration-300 group-hover:scale-110"
+            *ngIf="!isOpen">🤖</span>
+        <svg *ngIf="isOpen" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+
+        <!-- Notification Badge -->
+        <div *ngIf="!isOpen && messages.length === 0"
+            class="absolute -top-1 -right-1 w-4 h-4 bg-zomato-red border-2 border-white rounded-full"></div>
+    </button>
+</div>

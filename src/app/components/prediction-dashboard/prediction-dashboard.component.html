@@ -1,0 +1,125 @@
+<div class="min-h-[calc(100vh-64px)] prediction-container flex items-center justify-center p-0 sm:p-8">
+    <div
+        class="w-full sm:max-w-4xl h-screen sm:h-[90vh] bg-white/95 backdrop-blur-xl sm:rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden border border-white/20 transition-all duration-500">
+
+        <div
+            class="bg-zomato-red p-4 sm:p-5 flex items-center justify-between text-white border-b border-white/10 relative overflow-hidden group">
+            <!-- Animated accent -->
+            <div
+                class="absolute -right-20 -top-20 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-colors duration-700">
+            </div>
+
+            <div class="flex items-center space-x-4 sm:space-x-8 relative z-10">
+                <div
+                    class="w-12 h-12 sm:w-16 sm:h-16 bg-white overflow-hidden rounded-xl sm:rounded-2xl flex items-center justify-center shadow-2xl border-2 border-white/30 relative group robot-animated">
+                    <img [src]="robotAsset" alt="Robot Assistant"
+                        class="w-full h-full object-cover transform scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-zomato-red/40 to-transparent mix-blend-overlay">
+                    </div>
+                </div>
+                <div>
+                    <h1 class="font-black text-2xl sm:text-4xl tracking-tighter leading-none uppercase drop-shadow-lg">
+                        Sales AI Hub</h1>
+                    <p
+                        class="text-white/80 text-[10px] sm:text-xs mt-2 flex items-center font-black tracking-[0.3em] uppercase">
+                        <span class="relative flex h-3 w-3 mr-3">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
+                        Neural Analysis Active
+                    </p>
+                </div>
+            </div>
+            <div class="hidden md:block text-right relative z-10">
+                <div class="bg-black/20 backdrop-blur-xl px-4 py-2 rounded-2xl border border-white/10">
+                    <p class="text-white/50 text-[10px] font-black uppercase tracking-[0.2em]">Real-time Sync</p>
+                    <p class="text-white font-black text-sm uppercase">Active Now</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-10 space-y-8 bg-transparent custom-scrollbar" #messageContainer>
+            <div *ngFor="let msg of messages"
+                [ngClass]="{'flex justify-start': msg.isBot, 'flex justify-end': !msg.isBot}"
+                class="animate-in fade-in slide-in-from-bottom-8 duration-700">
+
+                <div [ngClass]="{
+                  'bg-white text-gray-800 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-gray-100 rounded-[2rem] rounded-tl-none message-bot': msg.isBot,
+                  'bg-gradient-to-br from-zomato-red to-[#d32f2f] text-white shadow-[0_15px_45px_rgba(235,66,74,0.3)] rounded-[2rem] rounded-tr-none': !msg.isBot,
+                  'w-full max-w-[95%] sm:max-w-[80%]': true
+                }" class="p-5 sm:p-8 text-sm sm:text-lg leading-relaxed relative group overflow-hidden">
+
+                    <div *ngIf="msg.isBot"
+                        class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <img [src]="robotAsset" class="w-12 h-12 grayscale">
+                    </div>
+
+                    <div *ngIf="msg.isAnalysis"
+                        class="whitespace-pre-line font-medium border-l-[6px] border-zomato-red pl-6 py-2">
+                        {{ msg.text }}
+                    </div>
+                    <div *ngIf="!msg.isAnalysis">
+                        {{ msg.text }}
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div *ngIf="msg.options" class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button *ngFor="let opt of msg.options"
+                            (click)="msg.text.includes('WHAT WOULD YOU LIKE TO DO') ? handleNavOption(opt) : selectOption(opt)"
+                            class="group/btn text-left p-5 rounded-2xl border-2 border-gray-100/50 text-gray-800 hover:border-zomato-red hover:bg-zomato-red hover:text-white transition-all text-xs sm:text-sm font-black tracking-widest bg-white shadow-lg hover:shadow-2xl active:scale-95 duration-500 relative overflow-hidden">
+                            <span class="relative z-10">{{ opt }}</span>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000">
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator / Realistic Loading Robot -->
+            <div *ngIf="isTyping"
+                class="flex flex-col items-center justify-center space-y-4 py-8 animate-in fade-in zoom-in duration-500">
+                <div class="w-32 h-32 relative robot-loading">
+                    <img src="/assets/loading-robot.png" alt="Loading..." class="w-full h-full object-contain">
+                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-2 bg-black/10 rounded-full blur-md">
+                    </div>
+                </div>
+                <div
+                    class="flex items-center space-x-2 bg-white/80 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-gray-100">
+                    <span class="text-xs font-black uppercase tracking-[0.2em] text-zomato-red">Neural Engine Fetching
+                        Data</span>
+                    <div class="flex space-x-1">
+                        <div class="w-1.5 h-1.5 bg-zomato-red rounded-full animate-bounce [animation-duration:0.8s]">
+                        </div>
+                        <div
+                            class="w-1.5 h-1.5 bg-zomato-red rounded-full animate-bounce [animation-delay:0.2s] [animation-duration:0.8s]">
+                        </div>
+                        <div
+                            class="w-1.5 h-1.5 bg-zomato-red rounded-full animate-bounce [animation-delay:0.4s] [animation-duration:0.8s]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div
+            class="px-6 sm:px-12 py-6 bg-white border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+            <div class="flex items-center space-x-3 text-gray-400">
+                <span class="text-2xl">🔒</span>
+                <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.25em]">Neural Encryption Active
+                    · Phase 4 Data Protection</span>
+            </div>
+            <div class="flex space-x-6">
+                <button
+                    class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-zomato-red transition-all">Support</button>
+                <button
+                    class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-zomato-red transition-all">Docs</button>
+                <button
+                    class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-zomato-red transition-all">Privacy</button>
+            </div>
+        </div>
+    </div>
+</div>

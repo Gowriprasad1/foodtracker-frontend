@@ -1,0 +1,79 @@
+<!-- Floating Icon -->
+<div class="fixed bottom-6 right-6 z-[200]">
+    <button (click)="toggleCalculator()"
+        class="bg-white text-zomato-red w-14 h-14 flex items-center justify-center rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all group border-2 border-white/20">
+        <span class="text-xl group-hover:rotate-12 transition-transform">🧮</span>
+    </button>
+</div>
+
+<!-- Calculator Modal Overlay -->
+<div (click)="toggleCalculator()" [class.opacity-0]="!isOpen" [class.pointer-events-none]="!isOpen"
+    [class.opacity-100]="isOpen"
+    class="fixed inset-0 bg-black/80 backdrop-blur-md z-[210] flex items-center justify-center p-4 transition-all duration-300 ease-out">
+
+    <!-- Calculator Container -->
+    <div (click)="$event.stopPropagation()" [class.scale-90]="!isOpen" [class.translate-y-8]="!isOpen"
+        [class.opacity-0]="!isOpen" [class.scale-100]="isOpen" [class.translate-y-0]="isOpen"
+        [class.opacity-100]="isOpen"
+        class="bg-zomato-red border-2 border-white/20 w-full max-w-xs rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-300 ease-out">
+
+        <!-- Display -->
+        <div class="bg-white/10 px-8 py-10 text-right backdrop-blur-md">
+            <div class="text-white/40 text-[10px] font-black uppercase tracking-widest mb-2">Calculator</div>
+            <div class="text-white text-5xl font-black tracking-tighter truncate">{{ display }}</div>
+        </div>
+
+        <!-- Keypad -->
+        <div class="p-6 grid grid-cols-4 gap-3 bg-zomato-red">
+            <!-- AC -->
+            <button (click)="resetCalculator()"
+                class="col-span-3 bg-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/20 transition-all active:scale-95">AC</button>
+            <button (click)="handleOperator('/')"
+                class="bg-white text-zomato-red p-4 rounded-2xl font-black hover:bg-white/90 transition-all active:scale-95 text-xl">/</button>
+
+            <!-- Row 1 -->
+            <button (click)="inputDigit('7')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">7</button>
+            <button (click)="inputDigit('8')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">8</button>
+            <button (click)="inputDigit('9')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">9</button>
+            <button (click)="handleOperator('*')"
+                class="bg-white text-zomato-red p-4 rounded-2xl font-black hover:bg-white/90 transition-all text-xl">×</button>
+
+            <!-- Row 2 -->
+            <button (click)="inputDigit('4')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">4</button>
+            <button (click)="inputDigit('5')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">5</button>
+            <button (click)="inputDigit('6')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">6</button>
+            <button (click)="handleOperator('-')"
+                class="bg-white text-zomato-red p-4 rounded-2xl font-black hover:bg-white/90 transition-all text-xl">-</button>
+
+            <!-- Row 3 -->
+            <button (click)="inputDigit('1')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">1</button>
+            <button (click)="inputDigit('2')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">2</button>
+            <button (click)="inputDigit('3')"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">3</button>
+            <button (click)="handleOperator('+')"
+                class="bg-white text-zomato-red p-4 rounded-2xl font-black hover:bg-white/90 transition-all text-xl">+</button>
+
+            <!-- Row 4 -->
+            <button (click)="inputDigit('0')"
+                class="col-span-2 bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">0</button>
+            <button (click)="inputDecimal()"
+                class="bg-white/5 border border-white/10 text-white p-4 rounded-2xl font-black hover:bg-white/10 transition-all">.</button>
+            <button (click)="handleEquals()"
+                class="bg-white text-zomato-red p-4 rounded-2xl font-black hover:bg-white/90 transition-all text-xl shadow-2xl">=</button>
+        </div>
+
+        <!-- Close Button Mobile -->
+        <div class="p-6 pt-0 bg-zomato-red">
+            <button (click)="toggleCalculator()"
+                class="w-full bg-white text-zomato-red py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white/90 transition-all shadow-lg">Close</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+:host {
+    display: block;
+}
+
+/* Custom Scrollbar for Chat */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.overflow-y-auto:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes bubble {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-bubble {
+    animation: bubble 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}

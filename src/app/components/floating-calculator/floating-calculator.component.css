@@ -1,0 +1,13 @@
+/* Floating Calculator Styles */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #000;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
