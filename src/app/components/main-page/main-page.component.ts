@@ -14,6 +14,7 @@ export class MainPageComponent implements OnInit {
   searchQuery: string = '';
   activeTypeFilter: string = '';
   activeCategoryFilter: string = '';
+  isCategoryDropdownOpen: boolean = false;
 
   // Order Session State
   cart: { item: any, quantity: number }[] = [];
@@ -72,12 +73,13 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  toggleCategoryFilter(cat: string): void {
-    if (this.activeCategoryFilter === cat) {
-      this.activeCategoryFilter = '';
-    } else {
-      this.activeCategoryFilter = cat;
-    }
+  toggleCategoryDropdown(): void {
+    this.isCategoryDropdownOpen = !this.isCategoryDropdownOpen;
+  }
+
+  selectCategory(cat: string): void {
+    this.activeCategoryFilter = cat;
+    this.isCategoryDropdownOpen = false;
   }
 
   // Cart Logic
