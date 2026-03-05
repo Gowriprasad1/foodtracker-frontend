@@ -11,6 +11,8 @@ export class MenuManagementComponent implements OnInit {
     isLoading = false;
     isProcessing = false;
     newItemName = '';
+    newItemType = '';
+    newItemCategory = '';
     editingItemId: string | null = null;
     successMessage = '';
     errorMessage = '';
@@ -46,7 +48,11 @@ export class MenuManagementComponent implements OnInit {
         this.errorMessage = '';
 
         if (this.editingItemId) {
-            this.apiService.updateItem(this.editingItemId, { name: this.newItemName }).subscribe({
+            this.apiService.updateItem(this.editingItemId, {
+                name: this.newItemName,
+                type: this.newItemType || null,
+                category: this.newItemCategory || null
+            }).subscribe({
                 next: () => {
                     this.successMessage = 'Item updated successfully!';
                     this.resetForm();
@@ -59,7 +65,11 @@ export class MenuManagementComponent implements OnInit {
                 }
             });
         } else {
-            this.apiService.addItem({ name: this.newItemName }).subscribe({
+            this.apiService.addItem({
+                name: this.newItemName,
+                type: this.newItemType || null,
+                category: this.newItemCategory || null
+            }).subscribe({
                 next: () => {
                     this.successMessage = 'Item added successfully!';
                     this.resetForm();
@@ -77,6 +87,8 @@ export class MenuManagementComponent implements OnInit {
     editItem(item: any): void {
         this.editingItemId = item.id;
         this.newItemName = item.name;
+        this.newItemType = item.type || '';
+        this.newItemCategory = item.category || '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -118,6 +130,8 @@ export class MenuManagementComponent implements OnInit {
 
     resetForm(): void {
         this.newItemName = '';
+        this.newItemType = '';
+        this.newItemCategory = '';
         this.editingItemId = null;
         setTimeout(() => {
             this.successMessage = '';

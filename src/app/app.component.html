@@ -1,38 +1,51 @@
-<div
-  class="min-h-screen bg-zomato-red text-white font-sans selection:bg-white selection:text-zomato-red overflow-x-hidden">
+<div class="min-h-screen bg-swiggy-light text-swiggy-text font-sans overflow-x-hidden">
   <!-- Navigation Header -->
-  <nav class="bg-zomato-red text-white border-b border-white/20 shadow-lg sticky top-0 z-50">
+  <nav class="bg-white border-b border-swiggy-border shadow-swiggy sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center">
-          <span class="font-black text-lg sm:text-xl tracking-tighter cursor-pointer flex items-center text-white"
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center gap-6">
+          <span
+            class="font-black text-xl sm:text-2xl tracking-tighter cursor-pointer flex items-center text-swiggy-text hover:text-swiggy-orange transition-colors"
             routerLink="/" (click)="isMenuOpen = false">
-            <span class="mr-2">🍽️</span> <span class="hidden sm:inline">TIFFINTRACKER POS</span><span
-              class="sm:hidden">TT POS</span>
+            <span class="hidden sm:inline">Swiggy POS</span>
+            <span class="sm:hidden">SPOS</span>
           </span>
+
           <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-6">
-              <a routerLink="/" routerLinkActive="bg-white text-zomato-red shadow-lg"
+            <div class="ml-10 flex items-baseline space-x-8">
+              <a routerLink="/" routerLinkActive="text-swiggy-orange border-swiggy-orange"
                 [routerLinkActiveOptions]="{exact: true}"
-                class="px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-widest transition-all hover:bg-white/10 text-white">Data
-                Entry</a>
-              <a routerLink="/analytics" routerLinkActive="bg-white text-zomato-red shadow-lg"
-                class="px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-widest transition-all hover:bg-white/10 text-white">Analytics
-                Dashboard</a>
-              <a routerLink="/menu" routerLinkActive="bg-white text-zomato-red shadow-lg"
-                class="px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-widest transition-all hover:bg-white/10 text-white">Manage
-                Menu</a>
-              <a routerLink="/prediction" routerLinkActive="bg-white text-zomato-red shadow-lg"
-                class="px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-widest transition-all hover:bg-white/10 text-white font-black">Prediction
-                AI Hub</a>
+                class="py-7 border-b-2 border-transparent text-sm font-bold tracking-wide transition-all hover:text-swiggy-orange text-swiggy-dark">
+                Data Entry
+              </a>
+              <a routerLink="/analytics" routerLinkActive="text-swiggy-orange border-swiggy-orange"
+                class="py-7 border-b-2 border-transparent text-sm font-bold tracking-wide transition-all hover:text-swiggy-orange text-swiggy-dark">
+                Analytics
+              </a>
+              <a routerLink="/menu" routerLinkActive="text-swiggy-orange border-swiggy-orange"
+                class="py-7 border-b-2 border-transparent text-sm font-bold tracking-wide transition-all hover:text-swiggy-orange text-swiggy-dark">
+                Menu
+              </a>
+              <a routerLink="/prediction" routerLinkActive="text-swiggy-orange border-swiggy-orange"
+                class="py-7 border-b-2 border-transparent text-sm font-black tracking-wide transition-all hover:text-swiggy-orange text-swiggy-dark">
+                <span class="text-swiggy-orange mr-1">✦</span> AI Hub
+              </a>
             </div>
+          </div>
+        </div>
+
+        <div class="hidden md:flex items-center gap-4">
+          <div
+            class="flex items-center gap-2 text-sm font-bold text-swiggy-dark cursor-pointer hover:text-swiggy-orange transition-colors">
+            <span class="text-swiggy-gray">Admin</span>
+            <div class="w-8 h-8 bg-swiggy-light rounded-full flex items-center justify-center text-lg">👤</div>
           </div>
         </div>
 
         <!-- Mobile Hamburger Button -->
         <div class="md:hidden">
           <button (click)="toggleMenu()"
-            class="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all focus:outline-none">
+            class="p-2 rounded-lg text-swiggy-dark hover:text-swiggy-orange bg-swiggy-light transition-all focus:outline-none">
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M4 6h16M4 12h16M4 18h16" />
@@ -46,21 +59,26 @@
 
     <!-- Mobile Navigation Drawer -->
     <div *ngIf="isMenuOpen"
-      class="md:hidden bg-zomato-red border-b border-white/20 absolute w-full z-40 animate-in slide-in-from-top duration-200">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-2xl">
-        <a routerLink="/" routerLinkActive="bg-white text-zomato-red" [routerLinkActiveOptions]="{exact: true}"
+      class="md:hidden bg-white border-b border-swiggy-border absolute w-full z-40 animate-in slide-in-from-top duration-200 shadow-swiggy-hover shadow-b">
+      <div class="px-4 py-4 space-y-2">
+        <a routerLink="/" routerLinkActive="text-swiggy-orange bg-swiggy-orange/5"
+          [routerLinkActiveOptions]="{exact: true}" (click)="isMenuOpen = false"
+          class="flex items-center gap-3 px-4 py-4 rounded-xl text-sm font-bold tracking-wide transition-all text-swiggy-dark hover:bg-swiggy-light">
+          <span class="text-xl">⚡</span> Data Entry
+        </a>
+        <a routerLink="/analytics" routerLinkActive="text-swiggy-orange bg-swiggy-orange/5" (click)="isMenuOpen = false"
+          class="flex items-center gap-3 px-4 py-4 rounded-xl text-sm font-bold tracking-wide transition-all text-swiggy-dark hover:bg-swiggy-light">
+          <span class="text-xl">📊</span> Analytics
+        </a>
+        <a routerLink="/menu" routerLinkActive="text-swiggy-orange bg-swiggy-orange/5" (click)="isMenuOpen = false"
+          class="flex items-center gap-3 px-4 py-4 rounded-xl text-sm font-bold tracking-wide transition-all text-swiggy-dark hover:bg-swiggy-light">
+          <span class="text-xl">🍽️</span> Manage Menu
+        </a>
+        <a routerLink="/prediction" routerLinkActive="text-swiggy-orange bg-swiggy-orange/5"
           (click)="isMenuOpen = false"
-          class="block px-4 py-3 rounded-lg text-base font-bold uppercase tracking-widest transition-all text-white">Data
-          Entry</a>
-        <a routerLink="/analytics" routerLinkActive="bg-white text-zomato-red" (click)="isMenuOpen = false"
-          class="block px-4 py-3 rounded-lg text-base font-bold uppercase tracking-widest transition-all text-white">Analytics
-          Dashboard</a>
-        <a routerLink="/menu" routerLinkActive="bg-white text-zomato-red" (click)="isMenuOpen = false"
-          class="block px-4 py-3 rounded-lg text-base font-bold uppercase tracking-widest transition-all text-white">Manage
-          Menu</a>
-        <a routerLink="/prediction" routerLinkActive="bg-white text-zomato-red" (click)="isMenuOpen = false"
-          class="block px-4 py-3 rounded-lg text-base font-bold uppercase tracking-widest transition-all text-white font-black">Prediction
-          AI Hub</a>
+          class="flex items-center gap-3 px-4 py-4 rounded-xl text-sm font-black tracking-wide transition-all text-swiggy-dark hover:bg-swiggy-light">
+          <span class="text-xl text-swiggy-orange">✦</span> Prediction AI Hub
+        </a>
       </div>
     </div>
   </nav>
@@ -71,7 +89,8 @@
   </main>
 
   <!-- Mobile Overlay for Navigation -->
-  <div *ngIf="isMenuOpen" (click)="toggleMenu()" class="fixed inset-0 bg-black/60 z-30 md:hidden backdrop-blur-sm">
+  <div *ngIf="isMenuOpen" (click)="toggleMenu()"
+    class="fixed inset-0 bg-swiggy-dark/40 z-30 md:hidden backdrop-blur-sm">
   </div>
 
   <!-- Global Floating Calculator -->

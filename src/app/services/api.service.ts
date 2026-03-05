@@ -14,7 +14,7 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/items`);
   }
 
-  addItem(itemData: { name: string, price?: number }): Observable<any> {
+  addItem(itemData: { name: string, price?: number, type?: string | null, category?: string | null }): Observable<any> {
     return this.http.post(`${this.apiUrl}/items`, itemData);
   }
 

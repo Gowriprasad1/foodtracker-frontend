@@ -1,147 +1,267 @@
-<div class="px-4 pb-8 max-w-7xl mx-auto mt-4 relative">
-    <!-- Floating Toast Notification (Mobile Optimized) -->
+<div class="px-4 pb-8 max-w-7xl mx-auto mt-6 relative">
+    <!-- Floating Toast Notification -->
     <div *ngIf="showToast"
-        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-zomato-red text-white px-6 py-3 rounded-full font-black uppercase tracking-widest shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-300">
-        <span class="text-lg">✅</span>
-        <span class="text-xs sm:text-sm whitespace-nowrap">{{ toastMessage }}</span>
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-swiggy-dark text-white px-6 py-3 rounded-md font-bold text-sm tracking-wide shadow-swiggy-hover flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <span class="text-emerald-400 text-lg">✓</span>
+        <span class="whitespace-nowrap">{{ toastMessage }}</span>
     </div>
 
-    <!-- Success/Error Messages (Existing) -->
+    <!-- Success/Error Messages -->
     <div *ngIf="successMessage"
-        class="mb-4 p-4 bg-white/10 text-white font-black uppercase tracking-widest rounded-2xl shadow-sm animate-bounce text-center border-2 border-white">
+        class="mb-6 p-4 bg-emerald-50 text-emerald-700 font-bold tracking-wide rounded-lg flex items-center gap-3 border border-emerald-100 shadow-sm">
+        <span
+            class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs">✓</span>
         {{ successMessage }}
     </div>
     <div *ngIf="errorMessage"
-        class="mb-4 p-4 bg-white text-zomato-red font-black uppercase tracking-widest rounded-2xl shadow-lg text-center">
+        class="mb-6 p-4 bg-red-50 text-red-700 font-bold tracking-wide rounded-lg flex items-center gap-3 border border-red-100 shadow-sm">
+        <span class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xs">✕</span>
         {{ errorMessage }}
     </div>
 
     <div class="flex flex-col lg:flex-row gap-6">
         <!-- Item Selection -->
         <div class="flex-grow">
-            <div class="bg-zomato-red rounded-3xl overflow-hidden shadow-2xl border border-white/20">
-                <div class="bg-white/10 px-6 py-6 border-b border-white/20">
-                    <h2 class="text-xl sm:text-2xl font-black text-white tracking-tighter uppercase">Select Items</h2>
-                    <p class="text-[10px] sm:text-xs font-bold text-white/60 uppercase tracking-widest mt-1">Tap an item
-                        to add it to the order</p>
+            <!-- Header & Search/Filter Section -->
+            <div class="mb-6 space-y-4">
+                <div>
+                    <h2 class="text-2xl font-black text-swiggy-text tracking-tight">Menu Items</h2>
+                    <p class="text-sm font-medium text-swiggy-gray mt-1">Tap an item to add it to the order</p>
                 </div>
 
-                <div class="p-4 sm:p-6 lg:p-10">
-                    <!-- Loading Skeletons -->
-                    <div *ngIf="isLoadingItems" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                        <div *ngFor="let i of [1,2,3,4,5,6,7,8]"
-                            class="bg-white/5 animate-pulse h-28 sm:h-36 rounded-[2rem] border border-white/10 flex flex-col items-center justify-center gap-3">
-                            <div class="w-12 h-12 bg-white/10 rounded-2xl"></div>
-                            <div class="h-3 bg-white/10 rounded-full w-2/3"></div>
+                <!-- Search Bar -->
+                <div class="relative max-w-xl">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-swiggy-gray">
+                        🔍
+                    </span>
+                    <input type="text" [(ngModel)]="searchQuery" placeholder="Search for dishes..."
+                        class="w-full bg-white border border-swiggy-border rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-swiggy-dark focus:outline-none focus:border-swiggy-orange focus:ring-1 focus:ring-swiggy-orange shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all placeholder-swiggy-muted">
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="flex flex-wrap items-center gap-2 pt-1" *ngIf="categories.length > 0 || items.length > 0">
+                    <button (click)="toggleTypeFilter('Veg')"
+                        [ngClass]="activeTypeFilter === 'Veg' ? 'bg-green-50 text-green-700 border-green-200 shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                        class="px-4 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 focus:outline-none">
+                        <div
+                            class="w-2.5 h-2.5 border border-green-600 flex items-center justify-center rounded-sm text-[8px] bg-white">
+                            <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
                         </div>
-                    </div>
-
-                    <!-- Items Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                        <button *ngFor="let item of items" (click)="addToCart(item)"
-                            class="group relative bg-white/5 hover:bg-white hover:scale-105 border-2 border-white/10 hover:border-white p-4 sm:p-6 rounded-2xl transition-all duration-300 transform active:scale-95 shadow-lg flex flex-col items-center justify-center gap-3">
-                            <div class="text-3xl sm:text-4xl transition-transform group-hover:scale-110">
-                                <span>🍽️</span>
+                        Pure Veg
+                    </button>
+                    <button (click)="toggleTypeFilter('Non-Veg')"
+                        [ngClass]="activeTypeFilter === 'Non-Veg' ? 'bg-red-50 text-red-700 border-red-200 shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                        class="px-4 py-1.5 rounded-full border text-xs font-bold transition-all flex items-center gap-1.5 focus:outline-none">
+                        <div
+                            class="w-2.5 h-2.5 border border-red-600 flex items-center justify-center rounded-sm text-[8px] bg-white">
+                            <div
+                                class="w-0 h-0 border-l-[3px] border-r-[3px] border-b-[4px] border-l-transparent border-r-transparent border-b-red-600 mt-[1px]">
                             </div>
-                            <span
-                                class="text-xs sm:text-sm font-black text-white group-hover:text-zomato-red uppercase tracking-tighter text-center">{{item.name}}</span>
-                            <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span
-                                    class="bg-white text-zomato-red text-[10px] font-bold px-2 py-0.5 rounded-full">+</span>
-                            </div>
-                        </button>
-                    </div>
+                        </div>
+                        Non-Veg
+                    </button>
 
+                    <div class="w-px h-5 bg-swiggy-border mx-1"></div>
+
+                    <button *ngFor="let cat of categories" (click)="toggleCategoryFilter(cat)"
+                        [ngClass]="activeCategoryFilter === cat ? 'bg-swiggy-dark text-white border-swiggy-dark shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                        class="px-4 py-1.5 rounded-full border text-xs font-bold transition-all focus:outline-none">
+                        {{ cat }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-transparent">
+                <!-- Loading Skeletons -->
+                <div *ngIf="isLoadingItems" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div *ngFor="let i of [1,2,3,4,5,6,7,8]"
+                        class="bg-white animate-pulse h-32 rounded-xl border border-swiggy-border shadow-swiggy flex flex-col items-center justify-center gap-3">
+                        <div class="w-12 h-12 bg-swiggy-light rounded-full"></div>
+                        <div class="h-3 bg-swiggy-light rounded-full w-2/3"></div>
+                    </div>
+                </div>
+
+                <!-- Items Grid (Swiggy Cards UI) -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <button *ngFor="let item of filteredItems" (click)="addToCart(item)"
+                        class="group relative bg-white border border-[#e9ecee] p-5 sm:p-6 rounded-2xl transition-all duration-300 transform active:scale-95 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center gap-3 overflow-hidden text-center h-full hover:border-[#FC8019]">
+
+                        <!-- Tag & Icon -->
+                        <div class="absolute top-3 left-3 flex items-center gap-2">
+                            <div *ngIf="item.type === 'Veg'"
+                                class="w-3.5 h-3.5 border border-green-600 flex items-center justify-center rounded-sm text-[10px]">
+                                <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+                            </div>
+                            <div *ngIf="item.type === 'Non-Veg'"
+                                class="w-3.5 h-3.5 border border-red-600 flex items-center justify-center rounded-sm text-[10px]">
+                                <div
+                                    class="w-0 h-0 border-l-[3.5px] border-r-[3.5px] border-b-[5px] border-l-transparent border-r-transparent border-b-red-600 mt-0.5">
+                                </div>
+                            </div>
+                            <span *ngIf="item.category"
+                                class="text-[9px] font-black uppercase text-swiggy-gray bg-swiggy-light px-1.5 py-0.5 rounded tracking-wider">{{
+                                item.category }}</span>
+                        </div>
+
+                        <div
+                            class="text-4xl sm:text-5xl transition-transform duration-500 group-hover:scale-110 mb-2 mt-4">
+                            <span>🍽️</span>
+                        </div>
+
+                        <span
+                            class="text-sm sm:text-base font-bold text-[#3d4152] transition-colors truncate w-full px-2 leading-tight">{{item.name}}</span>
+
+                        <!-- ADD Button Overlay (Swiggy Style) -->
+                        <div
+                            class="absolute bottom-[-50px] group-hover:bottom-4 left-1/2 -translate-x-1/2 transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 shadow-md">
+                            <div
+                                class="bg-white border border-[#d4d5d9] text-[#1ba672] text-xs font-black uppercase px-6 py-2 rounded-lg flex items-center gap-1 shadow-sm hover:shadow-md transition-shadow">
+                                ADD <span class="pl-1 text-sm leading-none">+</span>
+                            </div>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- Order Summary & Actions Panel -->
-        <div class="w-full lg:w-96 flex flex-col gap-6">
+        <div id="cartSection" class="w-full lg:w-96 flex flex-col gap-6 scroll-mt-24 pb-24 lg:pb-0">
             <!-- Cart Preview -->
             <div
-                class="bg-zomato-red rounded-3xl overflow-hidden shadow-2xl border border-white/20 flex flex-col h-fit lg:max-h-[80vh]">
-                <div class="bg-white/10 px-6 py-5 flex justify-between items-center border-b border-white/20">
-                    <h2 class="text-lg font-black text-white tracking-tighter uppercase">Current Order</h2>
+                class="bg-white rounded-2xl shadow-swiggy border border-swiggy-border flex flex-col h-fit lg:max-h-[calc(100vh-120px)] lg:sticky top-24">
+                <div class="px-6 py-5 flex justify-between items-center border-b border-swiggy-border">
+                    <h2 class="text-xl font-black text-swiggy-text tracking-tight">Cart</h2>
                     <button *ngIf="cart.length > 0" (click)="clearCart()"
-                        class="text-[10px] font-black text-white hover:underline uppercase tracking-widest transition-colors flex items-center gap-1">
-                        <span>Clear</span> 🅇
+                        class="text-xs font-bold text-swiggy-gray hover:text-swiggy-dark uppercase transition-colors">
+                        Clear Cart
                     </button>
                 </div>
 
-                <div class="flex-grow overflow-y-auto p-4 sm:p-6 min-h-[200px] max-h-[400px] lg:max-h-none">
-                    <div *ngIf="cart.length === 0" class="h-full flex flex-col items-center justify-center py-10">
-                        <span class="text-5xl mb-3 opacity-80">🛒</span>
-                        <p class="text-[10px] font-black uppercase tracking-widest text-white">Cart is empty</p>
+                <div
+                    class="flex-grow overflow-y-auto p-4 sm:p-6 min-h-[200px] max-h-[400px] lg:max-h-none hide-scrollbar">
+                    <!-- Empty State -->
+                    <div *ngIf="cart.length === 0" class="h-full flex flex-col items-center justify-center py-12">
+                        <div class="w-32 h-32 mb-4 opacity-50 grayscale transition-all">
+                            <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/2xempty_cart_yfxml0"
+                                alt="Empty Cart" class="w-full h-full object-contain mix-blend-multiply">
+                        </div>
+                        <p class="text-base font-bold text-swiggy-gray">Your cart is empty</p>
+                        <p class="text-xs text-swiggy-muted mt-1 text-center">You can go to the menu to view more items.
+                        </p>
                     </div>
 
-                    <div class="space-y-3">
-                        <div *ngFor="let entry of cart"
-                            class="group bg-white/5 border border-white/10 p-3 sm:p-4 rounded-2xl flex items-center justify-between hover:border-white transition-all shadow-sm">
-                            <div class="flex flex-col">
+                    <!-- Cart Items -->
+                    <div class="space-y-4">
+                        <div *ngFor="let entry of cart" class="flex items-start justify-between">
+                            <!-- Veg/Non-Veg Icon & Name -->
+                            <div class="flex items-start gap-2 max-w-[55%]">
+                                <div class="min-w-[12px] mt-1 text-[10px] sm:text-xs">
+                                    <div *ngIf="entry.item.type === 'Veg' || !entry.item.type"
+                                        class="w-3 h-3 border border-green-600 flex items-center justify-center rounded-sm">
+                                        <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                    </div>
+                                    <div *ngIf="entry.item.type === 'Non-Veg'"
+                                        class="w-3 h-3 border border-red-600 flex items-center justify-center rounded-sm">
+                                        <div
+                                            class="w-0 h-0 border-l-[3px] border-r-[3px] border-b-[4px] border-l-transparent border-r-transparent border-b-red-600 mt-[1px]">
+                                        </div>
+                                    </div>
+                                </div>
                                 <span
-                                    class="text-xs sm:text-sm font-black text-white uppercase tracking-tighter">{{entry.item.name}}</span>
+                                    class="text-sm font-medium text-swiggy-dark leading-tight">{{entry.item.name}}</span>
                             </div>
-                            <div class="flex items-center gap-3">
-                                <button (click)="decreaseQuantity(entry.item.id)"
-                                    class="w-8 h-8 rounded-lg border border-white/20 text-white hover:bg-white/10 transition-all font-black text-lg">-</button>
-                                <span class="text-sm font-black text-white w-4 text-center">{{entry.quantity}}</span>
-                                <button (click)="increaseQuantity(entry.item.id)"
-                                    class="w-8 h-8 rounded-lg border border-white/20 text-white hover:bg-white/10 transition-all font-black text-lg">+</button>
+
+                            <!-- Swiggy Style Quantity Selector -->
+                            <div class="flex items-center">
+                                <div
+                                    class="bg-white border border-[#60B246] rounded flex items-center overflow-hidden h-7 shadow-[0_1px_3px_rgba(0,0,0,0.05)] w-20 justify-between px-1">
+                                    <button (click)="decreaseQuantity(entry.item.id)"
+                                        class="w-6 h-full text-gray-400 hover:text-gray-700 font-black text-lg flex items-center justify-center transition-colors">-</button>
+                                    <span
+                                        class="text-sm font-bold text-[#60B246] text-center select-none">{{entry.quantity}}</span>
+                                    <button (click)="increaseQuantity(entry.item.id)"
+                                        class="w-6 h-full text-[#60B246] hover:text-[#529b3a] font-black text-lg flex items-center justify-center transition-colors">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Transaction Details (Order Type, Payment Mode, Manual Amount) -->
-                <div class="p-4 sm:p-6 bg-white/5 border-t border-white/20 space-y-6">
-                    <div class="space-y-4">
+                <div class="p-4 sm:p-6 bg-swiggy-light/50 border-t border-swiggy-border space-y-5">
+
+                    <!-- Manual Amount Entry (Mimicking a Bill Total) -->
+                    <!-- Manual Amount Entry (Mimicking a Bill Total) -->
+                    <div class="bg-white px-2 mb-2">
+                        <div class="flex justify-between items-center mb-3">
+                            <p class="text-xs font-bold text-[#3e4152]">Bill Details</p>
+                        </div>
+                        <div
+                            class="flex items-center justify-between border-b border-swiggy-border border-dashed pb-3 mb-3">
+                            <p class="text-xs text-[#686b78]">Item Total</p>
+                            <!-- Fake item total based on manual amount for now, or just an input area -->
+                            <div class="flex items-center gap-1 w-24">
+                                <span class="text-sm font-medium text-[#3e4152]">₹</span>
+                                <input type="number" [(ngModel)]="manualAmount"
+                                    class="w-full bg-transparent text-sm font-bold text-right outline-none placeholder-[#93959f]"
+                                    placeholder="Amount">
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <p class="text-sm font-black text-[#3e4152] uppercase tracking-tight">To Pay</p>
+                            <span class="text-sm font-black text-[#3e4152]">₹{{ manualAmount || '0' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
                         <!-- Order Type -->
                         <div>
-                            <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mb-2 px-1">Order
-                                Type</p>
-                            <div class="grid grid-cols-2 gap-2">
+                            <p class="text-xs font-bold text-swiggy-gray mb-2">Order Type</p>
+                            <div class="flex flex-col gap-2">
                                 <button (click)="orderType = 'Dine-in'"
-                                    [ngClass]="orderType === 'Dine-in' ? 'bg-white text-zomato-red shadow-lg' : 'bg-white/10 text-white border border-white/20'"
-                                    class="py-3 rounded-xl text-xs font-black uppercase tracking-tighter transition-all">Dine-in</button>
+                                    [ngClass]="orderType === 'Dine-in' ? 'bg-white border-swiggy-orange text-swiggy-orange shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                                    class="py-2.5 rounded text-xs font-bold transition-all border text-center">Dine-in</button>
                                 <button (click)="orderType = 'Takeaway'"
-                                    [ngClass]="orderType === 'Takeaway' ? 'bg-white text-zomato-red shadow-lg' : 'bg-white/10 text-white border border-white/20'"
-                                    class="py-3 rounded-xl text-xs font-black uppercase tracking-tighter transition-all">Takeaway</button>
+                                    [ngClass]="orderType === 'Takeaway' ? 'bg-white border-swiggy-orange text-swiggy-orange shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                                    class="py-2.5 rounded text-xs font-bold transition-all border text-center">Takeaway</button>
                             </div>
                         </div>
 
                         <!-- Payment Mode -->
                         <div>
-                            <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mb-2 px-1">Payment
-                                Mode</p>
-                            <div class="grid grid-cols-2 gap-2">
+                            <p class="text-xs font-bold text-swiggy-gray mb-2">Payment</p>
+                            <div class="flex flex-col gap-2">
                                 <button (click)="paymentMode = 'Cash'"
-                                    [ngClass]="paymentMode === 'Cash' ? 'bg-white text-zomato-red shadow-lg' : 'bg-white/10 text-white border border-white/20'"
-                                    class="py-3 rounded-xl text-xs font-black uppercase tracking-tighter transition-all">Cash</button>
+                                    [ngClass]="paymentMode === 'Cash' ? 'bg-swiggy-dark text-white border-swiggy-dark shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                                    class="py-2.5 rounded text-xs font-bold transition-all border text-center">Cash</button>
                                 <button (click)="paymentMode = 'UPI'"
-                                    [ngClass]="paymentMode === 'UPI' ? 'bg-white text-zomato-red shadow-lg' : 'bg-white/10 text-white border border-white/20'"
-                                    class="py-3 rounded-xl text-xs font-black uppercase tracking-tighter transition-all">UPI</button>
+                                    [ngClass]="paymentMode === 'UPI' ? 'bg-swiggy-dark text-white border-swiggy-dark shadow-sm' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                                    class="py-2.5 rounded text-xs font-bold transition-all border text-center">UPI</button>
                             </div>
-                        </div>
-
-                        <!-- Manual Amount Entry -->
-                        <div>
-                            <p class="text-[10px] font-black text-white/60 uppercase tracking-widest mb-2 px-1">Total
-                                Amount Charged (₹)</p>
-                            <input type="number" [(ngModel)]="manualAmount"
-                                class="w-full bg-white/10 border-2 border-white/20 rounded-2xl px-5 py-4 text-white text-xl font-black focus:border-white transition-all outline-none placeholder-white/20 text-center"
-                                placeholder="Enter Amount">
                         </div>
                     </div>
 
                     <button (click)="onSubmit()" [disabled]="cart.length === 0 || !manualAmount || isSubmitting"
-                        class="w-full bg-white text-zomato-red py-5 rounded-2xl font-black uppercase tracking-[0.2em] hover:bg-white/90 active:scale-95 transition-all shadow-2xl disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed group flex items-center justify-center gap-3">
-                        <div *ngIf="isSubmitting" class="spinner border-zomato-red/30 border-t-zomato-red"></div>
-                        <span class="group-hover:translate-x-1 transition-transform">{{ isSubmitting ? 'Recording...' :
-                            'Complete Order' }}</span>
+                        class="w-full bg-[#60B246] hover:bg-[#529b3a] text-white py-4 rounded-lg font-bold text-base active:scale-95 transition-all shadow-[0_2px_8px_rgba(96,178,70,0.4)] hover:shadow-[0_4px_14px_rgba(96,178,70,0.5)] disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed group flex items-center justify-center gap-3 mt-4">
+                        <div *ngIf="isSubmitting" class="spinner border-white/30 border-t-white w-5 h-5"></div>
+                        <span>{{ isSubmitting ? 'PLACING...' : 'PLACE ORDER' }}</span>
+                        <span *ngIf="!isSubmitting" class="text-xl leading-none font-medium ml-1">›</span>
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sticky Cart Bar -->
+    <div *ngIf="cart.length > 0"
+        class="lg:hidden fixed bottom-0 left-0 w-full bg-[#60B246] text-white p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] z-40 flex items-center justify-between"
+        (click)="scrollToCart()">
+        <div class="flex flex-col">
+            <span class="font-bold text-sm">{{ cart.length }} ITEM{{ cart.length > 1 ? 'S' : '' }}</span>
+            <span class="text-xs font-medium text-white/80">₹{{ manualAmount || '0' }} plus taxes</span>
+        </div>
+        <div class="flex items-center gap-1 font-black uppercase text-sm tracking-wider">
+            View Cart <span class="text-lg leading-none mt-0.5">›</span>
         </div>
     </div>
 </div>

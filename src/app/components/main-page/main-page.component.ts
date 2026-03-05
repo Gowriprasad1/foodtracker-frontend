@@ -10,6 +10,11 @@ export class MainPageComponent implements OnInit {
   items: any[] = [];
   isLoadingItems: boolean = true;
 
+  // Search & Filter State
+  searchQuery: string = '';
+  activeTypeFilter: string = '';
+  activeCategoryFilter: string = '';
+
   // Order Session State
   cart: { item: any, quantity: number }[] = [];
   manualAmount: number | null = null;
@@ -43,6 +48,36 @@ export class MainPageComponent implements OnInit {
         this.isLoadingItems = false;
       }
     });
+  }
+
+  get categories(): string[] {
+    const cats = this.items.map(i => i.category).filter(c => c);
+    return [...new Set(cats)];
+  }
+
+  get filteredItems(): any[] {
+    return this.items.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesType = this.activeTypeFilter ? item.type === this.activeTypeFilter : true;
+      const matchesCategory = this.activeCategoryFilter ? item.category === this.activeCategoryFilter : true;
+      return matchesSearch && matchesType && matchesCategory;
+    });
+  }
+
+  toggleTypeFilter(type: string): void {
+    if (this.activeTypeFilter === type) {
+      this.activeTypeFilter = '';
+    } else {
+      this.activeTypeFilter = type;
+    }
+  }
+
+  toggleCategoryFilter(cat: string): void {
+    if (this.activeCategoryFilter === cat) {
+      this.activeCategoryFilter = '';
+    } else {
+      this.activeCategoryFilter = cat;
+    }
   }
 
   // Cart Logic
@@ -127,5 +162,14 @@ export class MainPageComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  scrollToCart(): void {
+    setTimeout(() => {
+      const el = document.getElementById('cartSection');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 }
