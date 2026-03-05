@@ -156,6 +156,16 @@ export class MainPageComponent implements OnInit {
         this.isSubmitting = false;
         this.successMessage = 'Order recorded successfully! 🛒';
         this.clearCart();
+
+        // Reset filters and search
+        this.searchQuery = '';
+        this.activeTypeFilter = '';
+        this.activeCategoryFilter = '';
+        this.isCategoryDropdownOpen = false;
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         setTimeout(() => this.successMessage = '', 3000);
       },
       error: (err) => {
