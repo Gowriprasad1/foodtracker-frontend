@@ -162,27 +162,38 @@ export class AnalyticsDashboardComponent implements OnInit {
         datasets: [{
           label: 'Units Sold',
           data: data,
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
-          borderColor: 'rgb(255, 255, 255)',
-          borderWidth: 2,
-          borderRadius: 4
+          backgroundColor: '#FC8019',
+          borderColor: '#FC8019',
+          borderWidth: 0,
+          borderRadius: 4,
+          barPercentage: 0.6
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: false }
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#3D4152',
+            titleColor: '#FFFFFF',
+            bodyColor: '#FFFFFF',
+            padding: 10,
+            cornerRadius: 8,
+            displayColors: false
+          }
         },
         scales: {
           x: {
-            ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { weight: 'bold' } },
-            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            ticks: { color: '#7E808C', font: { family: 'Inter', weight: 'normal', size: 12 } },
+            grid: { color: 'transparent' },
+            border: { display: false }
           },
           y: {
             beginAtZero: true,
-            ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { weight: 'bold' }, precision: 0 },
-            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            ticks: { color: '#7E808C', font: { family: 'Inter', weight: 'normal', size: 12 }, precision: 0 },
+            grid: { color: '#E8E8E8', drawTicks: false },
+            border: { display: false, dash: [4, 4] }
           }
         }
       }

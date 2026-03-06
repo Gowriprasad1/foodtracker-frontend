@@ -10,6 +10,12 @@ export class MainPageComponent implements OnInit {
   items: any[] = [];
   isLoadingItems: boolean = true;
 
+  // Search & Filter State
+  searchQuery: string = '';
+  activeTypeFilter: string = '';
+  activeCategoryFilter: string = '';
+  isCategoryDropdownOpen: boolean = false;
+
   // Order Session State
   cart: { item: any, quantity: number }[] = [];
   manualAmount: number | null = null;
@@ -43,6 +49,37 @@ export class MainPageComponent implements OnInit {
         this.isLoadingItems = false;
       }
     });
+  }
+
+  get categories(): string[] {
+    const cats = this.items.map(i => i.category).filter(c => c);
+    return [...new Set(cats)];
+  }
+
+  get filteredItems(): any[] {
+    return this.items.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesType = this.activeTypeFilter ? item.type === this.activeTypeFilter : true;
+      const matchesCategory = this.activeCategoryFilter ? item.category === this.activeCategoryFilter : true;
+      return matchesSearch && matchesType && matchesCategory;
+    });
+  }
+
+  toggleTypeFilter(type: string): void {
+    if (this.activeTypeFilter === type) {
+      this.activeTypeFilter = '';
+    } else {
+      this.activeTypeFilter = type;
+    }
+  }
+
+  toggleCategoryDropdown(): void {
+    this.isCategoryDropdownOpen = !this.isCategoryDropdownOpen;
+  }
+
+  selectCategory(cat: string): void {
+    this.activeCategoryFilter = cat;
+    this.isCategoryDropdownOpen = false;
   }
 
   // Cart Logic
@@ -119,6 +156,16 @@ export class MainPageComponent implements OnInit {
         this.isSubmitting = false;
         this.successMessage = 'Order recorded successfully! 🛒';
         this.clearCart();
+
+        // Reset filters and search
+        this.searchQuery = '';
+        this.activeTypeFilter = '';
+        this.activeCategoryFilter = '';
+        this.isCategoryDropdownOpen = false;
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         setTimeout(() => this.successMessage = '', 3000);
       },
       error: (err) => {
@@ -127,5 +174,14 @@ export class MainPageComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  scrollToCart(): void {
+    setTimeout(() => {
+      const el = document.getElementById('cartSection');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 }

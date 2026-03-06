@@ -1,12 +1,12 @@
-<div class="flex flex-col lg:flex-row min-h-[calc(100vh-64px)] bg-zomato-red text-white">
+<div class="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] bg-swiggy-light text-swiggy-text">
     <!-- Mobile Dashboard Header -->
     <div
-        class="lg:hidden bg-zomato-red border-b border-white/20 px-4 py-4 flex justify-between items-center sticky top-16 z-30 shadow-lg text-white">
-        <h2 class="text-lg font-black uppercase tracking-tighter flex items-center gap-2">
-            <span>📊</span> Analytics
+        class="lg:hidden bg-white border-b border-swiggy-border px-4 py-4 flex justify-between items-center sticky top-20 z-30 shadow-sm">
+        <h2 class="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+            <span class="text-swiggy-orange">📊</span> Analytics
         </h2>
         <button (click)="isFilterOpen = !isFilterOpen"
-            class="bg-white text-zomato-red px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-xl hover:bg-white/90 transition-all">
+            class="bg-white border text-swiggy-dark px-4 py-2 rounded font-bold text-xs uppercase tracking-wide flex items-center gap-2 shadow-sm hover:bg-gray-50 transition-all">
             <span>{{ isFilterOpen ? 'Close Filters' : 'Filters' }}</span>
             <span class="text-base">{{ isFilterOpen ? '✕' : '⚙️' }}</span>
         </button>
@@ -14,30 +14,30 @@
 
     <!-- Sidebar Filters -->
     <aside [ngClass]="isFilterOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-        class="fixed lg:sticky top-0 lg:top-16 left-0 w-80 lg:w-72 h-screen lg:h-[calc(100vh-64px)] bg-zomato-red border-r border-white/20 flex flex-col transition-transform duration-300 z-[60] lg:z-10 shadow-2xl pt-2 lg:pt-0">
+        class="fixed lg:sticky top-0 lg:top-20 left-0 w-80 lg:w-72 h-screen lg:h-[calc(100vh-80px)] bg-white border-r border-swiggy-border flex flex-col transition-transform duration-300 z-[60] lg:z-10 pt-2 lg:pt-0">
 
         <!-- Sidebar Header (Mobile Close Button) -->
-        <div class="p-6 border-b border-white/10 bg-white/5 flex items-center justify-between">
-            <h2 class="text-xl font-black uppercase tracking-tighter flex items-center gap-3">
-                <span class="grayscale lg:hidden">⚙️</span>
-                <span class="hidden lg:inline grayscale">📊</span>
-                <span class="lg:hidden">Filters</span>
-                <span class="hidden lg:inline">Analytics</span>
+        <div class="p-6 border-b border-swiggy-border flex items-center justify-between bg-white">
+            <h2 class="text-lg font-black tracking-tight flex items-center gap-3">
+                <span class="lg:hidden text-swiggy-orange">⚙️ Filters</span>
+                <span class="hidden lg:flex items-center gap-2 text-swiggy-dark uppercase">
+                    <span class="text-swiggy-orange text-xl">📊</span> Analytics
+                </span>
             </h2>
             <button (click)="isFilterOpen = false"
-                class="lg:hidden p-2 text-white/60 hover:text-white transition-colors">
+                class="lg:hidden p-2 text-swiggy-gray hover:text-swiggy-dark transition-colors">
                 <span class="text-2xl">✕</span>
             </button>
         </div>
 
-        <div class="flex-grow overflow-y-auto p-6 space-y-8 custom-scrollbar min-h-0">
+        <div class="flex-grow overflow-y-auto p-6 space-y-8 hide-scrollbar">
             <!-- Date Presets -->
             <section>
-                <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-4">Date Presets</h3>
+                <h3 class="text-xs font-bold text-swiggy-dark mb-4">Date Presets</h3>
                 <div class="grid grid-cols-2 gap-2">
                     <button *ngFor="let p of ['today', 'yesterday', 'thisWeek', 'thisMonth']" (click)="setPreset(p)"
-                        [ngClass]="activePreset === p ? 'bg-white text-zomato-red shadow-xl' : 'bg-white/10 text-white border-white/20'"
-                        class="px-3 py-3 rounded-xl text-[10px] font-black uppercase tracking-tighter border transition-all truncate hover:bg-white/20">
+                        [ngClass]="activePreset === p ? 'bg-swiggy-orange/10 text-swiggy-orange border-swiggy-orange font-black' : 'bg-white text-swiggy-gray border-swiggy-border font-medium hover:bg-gray-50'"
+                        class="px-3 py-2.5 rounded text-xs tracking-wides border transition-all truncate text-center capitalize shadow-sm">
                         {{ p === 'thisWeek' ? 'Week' : p === 'thisMonth' ? 'Month' : p }}
                     </button>
                 </div>
@@ -45,256 +45,249 @@
 
             <!-- Custom Range -->
             <section>
-                <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-4">Custom Range</h3>
-                <div class="space-y-2">
+                <h3 class="text-xs font-bold text-swiggy-dark mb-4">Custom Range</h3>
+                <div class="space-y-3">
                     <input type="date" [(ngModel)]="filters.startDate" (change)="activePreset = ''; fetchAnalytics()"
-                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-white transition-all outline-none selection:bg-white selection:text-zomato-red">
+                        class="w-full bg-white border border-swiggy-border rounded px-4 py-2.5 text-sm text-swiggy-dark focus:border-swiggy-orange focus:ring-1 focus:ring-swiggy-orange transition-all outline-none">
                     <input type="date" [(ngModel)]="filters.endDate" (change)="activePreset = ''; fetchAnalytics()"
-                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-white transition-all outline-none selection:bg-white selection:text-zomato-red">
+                        class="w-full bg-white border border-swiggy-border rounded px-4 py-2.5 text-sm text-swiggy-dark focus:border-swiggy-orange focus:ring-1 focus:ring-swiggy-orange transition-all outline-none">
                 </div>
             </section>
 
             <!-- Days of Week -->
             <section>
-                <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-4">Days of Week</h3>
+                <h3 class="text-xs font-bold text-swiggy-dark mb-4">Days of Week</h3>
                 <div class="flex flex-wrap gap-2">
                     <button *ngFor="let day of days" (click)="toggleDay(day.value)"
-                        [ngClass]="selectedDays.includes(day.value) ? 'bg-white text-zomato-red border-white' : 'bg-white/5 text-white/60 border-white/10'"
-                        class="px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-tighter border transition-all hover:bg-white/20">
+                        [ngClass]="selectedDays.includes(day.value) ? 'bg-swiggy-orange text-white border-swiggy-orange shadow-swiggy-orange font-bold' : 'bg-white text-swiggy-gray border-swiggy-border hover:bg-gray-50'"
+                        class="px-3 py-1.5 rounded text-[11px] uppercase tracking-wider border transition-all">
                         {{ day.name.substring(0, 3) }}
                     </button>
                 </div>
             </section>
 
             <!-- Payments & Type -->
-            <section class="space-y-4">
+            <section class="space-y-5">
                 <div>
-                    <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Payment Mode</h3>
+                    <h3 class="text-xs font-bold text-swiggy-dark mb-3">Payment Mode</h3>
                     <select [(ngModel)]="filters.paymentMode" (change)="fetchAnalytics()"
-                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-white appearance-none outline-none">
-                        <option value="" class="bg-zomato-red">All Payments</option>
-                        <option value="Cash" class="bg-zomato-red">Cash Only</option>
-                        <option value="UPI" class="bg-zomato-red">UPI Only</option>
+                        class="w-full bg-white border border-swiggy-border rounded px-4 py-2.5 text-sm text-swiggy-dark focus:border-swiggy-orange outline-none shadow-sm cursor-pointer">
+                        <option value="">All Payments</option>
+                        <option value="Cash">Cash Only</option>
+                        <option value="UPI">UPI Only</option>
                     </select>
                 </div>
                 <div>
-                    <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Order Type</h3>
+                    <h3 class="text-xs font-bold text-swiggy-dark mb-3">Order Type</h3>
                     <select [(ngModel)]="filters.orderType" (change)="fetchAnalytics()"
-                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-white appearance-none outline-none">
-                        <option value="" class="bg-zomato-red">All Order Types</option>
-                        <option value="Dine-in" class="bg-zomato-red">Dine-in</option>
-                        <option value="Takeaway" class="bg-zomato-red">Takeaway</option>
+                        class="w-full bg-white border border-swiggy-border rounded px-4 py-2.5 text-sm text-swiggy-dark focus:border-swiggy-orange outline-none shadow-sm cursor-pointer">
+                        <option value="">All Order Types</option>
+                        <option value="Dine-in">Dine-in</option>
+                        <option value="Takeaway">Takeaway</option>
                     </select>
                 </div>
             </section>
 
             <!-- Item Focus -->
             <section>
-                <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Item Focus</h3>
+                <h3 class="text-xs font-bold text-swiggy-dark mb-3">Item Focus</h3>
                 <select [(ngModel)]="filters.itemId" (change)="fetchAnalytics()"
-                    class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-white appearance-none outline-none">
-                    <option value="" class="bg-zomato-red">All Menu Items</option>
-                    <option *ngFor="let item of items" [value]="item.id" class="bg-zomato-red">{{ item.name }}</option>
+                    class="w-full bg-white border border-swiggy-border rounded px-4 py-2.5 text-sm text-swiggy-dark focus:border-swiggy-orange outline-none shadow-sm cursor-pointer max-w-full">
+                    <option value="">All Menu Items</option>
+                    <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
                 </select>
             </section>
 
             <!-- Time Slot -->
             <section>
-                <h3 class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-3">Time Slot</h3>
+                <h3 class="text-xs font-bold text-swiggy-dark mb-3">Time Slot</h3>
                 <select [(ngModel)]="filters.timeSlot" (change)="fetchAnalytics()"
-                    class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-white appearance-none outline-none">
-                    <option value="" class="bg-zomato-red">Any Time</option>
-                    <option value="morning" class="bg-zomato-red">Morning (6AM - 11AM)</option>
-                    <option value="afternoon" class="bg-zomato-red">Afternoon (11AM - 4PM)</option>
-                    <option value="evening" class="bg-zomato-red">Evening (4PM - 10PM)</option>
+                    class="w-full bg-white border border-swiggy-border rounded px-4 py-2.5 text-sm text-swiggy-dark focus:border-swiggy-orange outline-none shadow-sm cursor-pointer">
+                    <option value="">Any Time</option>
+                    <option value="morning">Morning (6AM - 11AM)</option>
+                    <option value="afternoon">Afternoon (11AM - 4PM)</option>
+                    <option value="evening">Evening (4PM - 10PM)</option>
                 </select>
             </section>
         </div>
 
-        <div class="p-6 border-t border-white/20 bg-white/5 mt-auto">
+        <div class="p-6 border-t border-swiggy-border bg-white mt-auto">
             <button (click)="resetFilters()"
-                class="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white/10 border border-white/20 rounded-2xl transition-all">
-                Reset All
+                class="w-full py-3.5 text-xs font-bold uppercase tracking-wide text-swiggy-dark hover:text-swiggy-orange hover:bg-swiggy-orange/5 border border-swiggy-border hover:border-swiggy-orange rounded transition-all shadow-sm">
+                Reset All Filters
             </button>
         </div>
     </aside>
 
     <!-- Sidebar Overlay for Mobile -->
     <div *ngIf="isFilterOpen" (click)="isFilterOpen = false"
-        class="fixed inset-0 bg-black/80 z-[55] lg:hidden backdrop-blur-md transition-opacity"></div>
+        class="fixed inset-0 bg-swiggy-dark/50 z-[55] lg:hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- Main Content -->
-    <main class="flex-grow p-4 sm:p-6 lg:p-10 bg-zomato-red">
-        <div class="max-w-6xl mx-auto">
+    <main class="flex-grow p-4 sm:p-6 lg:p-8">
+        <div class="max-w-6xl mx-auto space-y-6 sm:space-y-8">
             <!-- Summary Metrics -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-                <!-- Loading Skeletons for Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Loading Skeletons -->
                 <ng-container *ngIf="isLoadingAnalytics">
                     <div *ngFor="let i of [1,2,3,4]"
-                        class="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] animate-pulse">
-                        <div class="h-3 bg-white/10 rounded-full w-1/2 mb-4"></div>
-                        <div class="h-10 bg-white/20 rounded-2xl w-3/4 mb-6"></div>
-                        <div class="h-1 bg-white/10 rounded-full w-full"></div>
+                        class="bg-white border border-swiggy-border p-6 rounded-xl shadow-swiggy animate-pulse">
+                        <div class="h-3 bg-swiggy-border rounded-full w-1/2 mb-4"></div>
+                        <div class="h-8 bg-swiggy-light rounded-lg w-3/4 mb-4"></div>
+                        <div class="h-2 bg-swiggy-border rounded-full w-1/3"></div>
                     </div>
                 </ng-container>
 
                 <ng-container *ngIf="!isLoadingAnalytics">
                     <!-- Total Revenue -->
                     <div *ngIf="!filters.itemId"
-                        class="bg-white/10 rounded-3xl p-6 sm:p-8 text-white shadow-2xl overflow-hidden relative border border-white/20 group hover:scale-[1.02] transition-transform">
-                        <div class="relative z-10">
-                            <p class="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">Total Revenue
-                            </p>
-                            <h3 class="text-3xl sm:text-4xl font-black text-white">₹{{ summary.totalRevenue |
-                                number:'1.0-0' }}</h3>
-                            <p class="text-white/40 text-[10px] mt-2 font-black uppercase tracking-tighter">{{
-                                summary.totalTransactions }} transactions</p>
-                        </div>
+                        class="bg-white rounded-xl p-6 shadow-swiggy hover:shadow-swiggy-hover border border-swiggy-border border-l-4 border-l-swiggy-orange transition-shadow group relative overflow-hidden">
+                        <p class="text-swiggy-gray text-xs font-bold uppercase tracking-wider mb-2">Total Revenue</p>
+                        <h3 class="text-3xl font-black text-swiggy-text">₹{{ summary.totalRevenue | number:'1.0-0' }}
+                        </h3>
+                        <p class="text-swiggy-muted text-[10px] mt-2 font-bold uppercase tracking-widest">{{
+                            summary.totalTransactions }} transactions</p>
+
                         <div
-                            class="absolute -right-4 -bottom-4 opacity-10 text-white text-9xl font-black group-hover:rotate-12 transition-transform">
+                            class="absolute -right-4 -bottom-4 opacity-[0.03] text-swiggy-orange text-8xl font-black group-hover:scale-110 transition-transform">
                             ₹</div>
                     </div>
 
                     <!-- UPI -->
                     <div *ngIf="!filters.itemId"
-                        class="bg-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 border-l-8 border-l-white">
-                        <p class="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">UPI Revenue</p>
-                        <h3 class="text-3xl sm:text-4xl font-black text-white">₹{{ summary.upiRevenue | number:'1.0-0'
-                            }}
-                        </h3>
-                        <div class="mt-4 h-1.5 w-full bg-white/20 rounded-full overflow-hidden border border-white/10">
-                            <div class="h-full bg-white transition-all duration-1000 ease-out"
+                        class="bg-white rounded-xl p-6 shadow-swiggy hover:shadow-swiggy-hover border border-swiggy-border border-l-4 border-l-blue-500 transition-shadow group relative overflow-hidden">
+                        <p class="text-swiggy-gray text-xs font-bold uppercase tracking-wider mb-2">UPI Revenue</p>
+                        <h3 class="text-3xl font-black text-swiggy-text">₹{{ summary.upiRevenue | number:'1.0-0' }}</h3>
+                        <div class="mt-4 h-1.5 w-full bg-swiggy-light rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 transition-all duration-1000 ease-out"
                                 [style.width.%]="(summary.upiRevenue / summary.totalRevenue) * 100 || 0"></div>
                         </div>
                     </div>
 
                     <!-- Cash -->
                     <div *ngIf="!filters.itemId"
-                        class="bg-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 border-l-8 border-l-white">
-                        <p class="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">Cash Revenue</p>
-                        <h3 class="text-3xl sm:text-4xl font-black text-white">₹{{ summary.cashRevenue |
-                            number:'1.0-0' }}
+                        class="bg-white rounded-xl p-6 shadow-swiggy hover:shadow-swiggy-hover border border-swiggy-border border-l-4 border-l-green-500 transition-shadow group relative overflow-hidden">
+                        <p class="text-swiggy-gray text-xs font-bold uppercase tracking-wider mb-2">Cash Revenue</p>
+                        <h3 class="text-3xl font-black text-swiggy-text">₹{{ summary.cashRevenue | number:'1.0-0' }}
                         </h3>
-                        <div class="mt-4 h-1.5 w-full bg-white/20 rounded-full overflow-hidden border border-white/10">
-                            <div class="h-full bg-white transition-all duration-1000 ease-out"
+                        <div class="mt-4 h-1.5 w-full bg-swiggy-light rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500 transition-all duration-1000 ease-out"
                                 [style.width.%]="(summary.cashRevenue / summary.totalRevenue) * 100 || 0"></div>
                         </div>
                     </div>
 
                     <!-- Units Sold -->
-                    <div class="bg-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 border-l-8 border-l-white"
-                        [ngClass]="{'ring-4 ring-white/20 scale-[1.02] border-white': filters.itemId}">
-                        <p class="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">Units Sold</p>
-                        <h3 class="text-3xl sm:text-4xl font-black text-white">{{ summary.totalItemsSold }}</h3>
-                        <p class="text-white/40 text-[10px] font-black uppercase mt-1">Catalog items</p>
+                    <div class="bg-white rounded-xl p-6 shadow-swiggy hover:shadow-swiggy-hover border border-swiggy-border border-l-4 border-l-purple-500 transition-shadow group relative overflow-hidden"
+                        [ngClass]="{'ring-2 ring-swiggy-orange/50 border-l-swiggy-orange': filters.itemId}">
+                        <p class="text-swiggy-gray text-xs font-bold uppercase tracking-wider mb-2">Units Sold</p>
+                        <h3 class="text-3xl font-black text-swiggy-text">{{ summary.totalItemsSold }}</h3>
+                        <p class="text-swiggy-muted text-[10px] mt-2 font-bold uppercase tracking-widest">Catalog items
+                        </p>
                     </div>
                 </ng-container>
             </div>
 
             <!-- Chart Section -->
             <div
-                class="bg-white/10 rounded-[2.5rem] shadow-2xl border border-white/20 p-6 sm:p-10 mb-8 sm:mb-12 overflow-hidden">
+                class="bg-white rounded-xl shadow-swiggy border border-swiggy-border p-6 sm:p-8 overflow-hidden relative">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                    <h3
-                        class="text-xl sm:text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
-                        <span class="text-2xl">📈</span> Sales Distribution
+                    <h3 class="text-lg font-black text-swiggy-text tracking-tight flex items-center gap-2">
+                        Sales Distribution
                     </h3>
                 </div>
-                <div class="h-[300px] sm:h-[400px] relative">
+                <div class="h-[300px] sm:h-[400px] relative w-full">
                     <div *ngIf="isLoadingAnalytics"
-                        class="absolute inset-0 bg-zomato-red/80 z-10 flex items-center justify-center rounded-3xl backdrop-blur-sm">
-                        <div class="animate-spin rounded-full h-10 w-10 border-4 border-white/20 border-t-white">
-                        </div>
+                        class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center backdrop-blur-sm rounded-xl">
+                        <div class="spinner"></div>
                     </div>
                     <canvas id="salesChart"></canvas>
                 </div>
             </div>
 
             <!-- Transactions Table Section -->
-            <div class="bg-white/10 rounded-[2.5rem] shadow-2xl border border-white/20 overflow-hidden mb-10">
+            <div class="bg-white rounded-xl shadow-swiggy border border-swiggy-border overflow-hidden">
                 <div
-                    class="px-8 py-6 border-b border-white/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/5">
-                    <h3 class="text-xl font-black text-white uppercase tracking-tighter">Recent activity</h3>
-                    <div class="flex items-center space-x-4">
+                    class="px-6 py-5 border-b border-swiggy-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h3 class="text-lg font-black text-swiggy-text tracking-tight">Recent Activity</h3>
+                    <div class="flex items-center space-x-6">
                         <button (click)="filters.sortBy = 'created_at'; fetchAnalytics()"
-                            [ngClass]="filters.sortBy === 'created_at' ? 'text-white border-white' : 'text-white/40 border-transparent'"
-                            class="text-[10px] font-black uppercase tracking-[0.2em] border-b-2 pb-1 transition-all">Time</button>
+                            [ngClass]="filters.sortBy === 'created_at' ? 'text-swiggy-orange font-bold border-swiggy-orange' : 'text-swiggy-gray font-medium border-transparent'"
+                            class="text-xs uppercase tracking-wider border-b-2 pb-1.5 transition-all hover:text-swiggy-orange">Time</button>
                         <button (click)="filters.sortBy = 'amount'; fetchAnalytics()"
-                            [ngClass]="filters.sortBy === 'amount' ? 'text-white border-white' : 'text-white/40 border-transparent'"
-                            class="text-[10px] font-black uppercase tracking-[0.2em] border-b-2 pb-1 transition-all">Value</button>
+                            [ngClass]="filters.sortBy === 'amount' ? 'text-swiggy-orange font-bold border-swiggy-orange' : 'text-swiggy-gray font-medium border-transparent'"
+                            class="text-xs uppercase tracking-wider border-b-2 pb-1.5 transition-all hover:text-swiggy-orange">Value</button>
                     </div>
                 </div>
 
-                <div class="overflow-x-auto custom-scrollbar">
+                <div class="overflow-x-auto hide-scrollbar">
                     <table class="w-full text-left border-collapse min-w-[700px]">
                         <thead>
-                            <tr class="bg-white/5">
-                                <th class="px-8 py-5 text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">
-                                    Time & Date</th>
-                                <th class="px-8 py-5 text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">
-                                    Type</th>
-                                <th class="px-8 py-5 text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">
+                            <tr class="bg-swiggy-light">
+                                <th class="px-6 py-4 text-xs font-bold text-swiggy-gray uppercase tracking-wider">Time &
+                                    Date</th>
+                                <th class="px-6 py-4 text-xs font-bold text-swiggy-gray uppercase tracking-wider">Type
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold text-swiggy-gray uppercase tracking-wider w-1/3">
                                     Contents</th>
-                                <th class="px-8 py-5 text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">
-                                    Method</th>
+                                <th class="px-6 py-4 text-xs font-bold text-swiggy-gray uppercase tracking-wider">Method
+                                </th>
                                 <th
-                                    class="px-8 py-5 text-[10px] font-black text-white/50 uppercase tracking-[0.2em] text-right">
+                                    class="px-6 py-4 text-xs font-bold text-swiggy-gray uppercase tracking-wider text-right">
                                     Amount</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/10">
+                        <tbody class="divide-y divide-swiggy-border">
                             <!-- Loading Skeleton Rows -->
                             <ng-container *ngIf="isLoadingAnalytics">
-                                <tr *ngFor="let i of [1,2,3,4,5,6]" class="animate-pulse">
-                                    <td class="px-8 py-6">
-                                        <div class="h-4 bg-white/10 rounded w-16 mb-1"></div>
-                                        <div class="h-2 bg-white/5 rounded w-10"></div>
+                                <tr *ngFor="let i of [1,2,3,4,5]" class="animate-pulse bg-white">
+                                    <td class="px-6 py-4">
+                                        <div class="h-4 bg-swiggy-border rounded w-16 mb-2"></div>
+                                        <div class="h-2 bg-swiggy-light rounded w-10"></div>
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <div class="h-6 bg-white/10 rounded-lg w-16"></div>
+                                    <td class="px-6 py-4">
+                                        <div class="h-5 bg-swiggy-border rounded w-16"></div>
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <div class="h-4 bg-white/10 rounded w-32"></div>
+                                    <td class="px-6 py-4">
+                                        <div class="h-4 bg-swiggy-light rounded w-32"></div>
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <div class="h-3 bg-white/10 rounded w-12"></div>
+                                    <td class="px-6 py-4">
+                                        <div class="h-3 bg-swiggy-border rounded w-12"></div>
                                     </td>
-                                    <td class="px-8 py-6 text-right">
-                                        <div class="h-6 bg-white/10 rounded w-20 ml-auto"></div>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="h-5 bg-swiggy-border rounded w-16 ml-auto"></div>
                                     </td>
                                 </tr>
                             </ng-container>
 
                             <ng-container *ngIf="!isLoadingAnalytics">
                                 <tr *ngFor="let trans of transactionData"
-                                    class="hover:bg-white/5 transition-colors group">
-                                    <td class="px-8 py-6">
+                                    class="hover:bg-swiggy-light/50 transition-colors bg-white">
+                                    <td class="px-6 py-4">
+                                        <span class="font-bold text-swiggy-dark block text-sm">{{ trans.created_at |
+                                            date:'shortTime' }}</span>
                                         <span
-                                            class="font-black text-white block text-sm group-hover:scale-105 transition-transform origin-left">{{
-                                            trans.created_at | date:'shortTime' }}</span>
-                                        <span class="text-[10px] text-white/40 uppercase font-black tracking-tighter">{{
+                                            class="text-[10px] text-swiggy-muted font-semibold uppercase tracking-wider">{{
                                             trans.created_at | date:'dd MMM yyyy' }}</span>
                                     </td>
-                                    <td class="px-8 py-6">
+                                    <td class="px-6 py-4">
                                         <span
-                                            class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter bg-white/10 text-white/80 border border-white/20">
+                                            class="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider border"
+                                            [ngClass]="trans.order_type === 'Dine-in' ? 'bg-orange-50 text-swiggy-orange border-orange-100' : 'bg-gray-50 text-swiggy-gray border-gray-100'">
                                             {{ trans.order_type }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <div
-                                            class="max-w-[150px] sm:max-w-[250px] truncate text-xs font-bold text-white/50 italic">
+                                    <td class="px-6 py-4">
+                                        <div class="max-w-[150px] sm:max-w-[250px] truncate text-sm text-swiggy-dark">
                                             {{ trans.item_summary }}
                                         </div>
                                     </td>
-                                    <td class="px-8 py-6">
-                                        <span
-                                            class="text-[10px] font-black text-white uppercase tracking-widest border-b border-white/10 group-hover:border-white transition-all">
+                                    <td class="px-6 py-4">
+                                        <span class="text-[11px] font-bold text-swiggy-gray uppercase tracking-wider">
                                             {{ trans.payment_mode }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6 text-right">
-                                        <span class="font-black text-white text-lg sm:text-xl">₹{{ trans.amount |
+                                    <td class="px-6 py-4 text-right">
+                                        <span class="font-black text-swiggy-text text-lg">₹{{ trans.amount |
                                             number:'1.0-0' }}</span>
                                     </td>
                                 </tr>
@@ -303,11 +296,11 @@
                     </table>
                 </div>
 
-                <div *ngIf="!isLoadingAnalytics && transactionData.length === 0" class="py-24 text-center bg-white/5">
-                    <div class="text-7xl mb-6 grayscale opacity-20">🕳️</div>
-                    <h4 class="text-xl font-black text-white uppercase tracking-tight">Zero history found</h4>
-                    <p class="text-white/40 mt-2 uppercase tracking-[0.2em] text-[10px] font-black">Refine your scope or
-                        reset filters</p>
+                <div *ngIf="!isLoadingAnalytics && transactionData.length === 0"
+                    class="py-20 text-center bg-white border-t border-swiggy-border">
+                    <div class="text-5xl mb-4 opacity-50 grayscale">📊</div>
+                    <h4 class="text-lg font-bold text-swiggy-dark tracking-tight">No data found</h4>
+                    <p class="text-swiggy-gray mt-1 text-xs">Adjust your filters to see more results</p>
                 </div>
             </div>
         </div>
